@@ -4,6 +4,7 @@
 
 void simpleshell(void);
 
+
  int main(void){
 	
 	simpleshell();
@@ -16,7 +17,9 @@ void simpleshell(void){
 	printf("Simple Shell. Build: DEV. Thomas Young (c) 2019\n");
 	printf("A Young Enterprise Application.\n");
 
+	int argc;
 	char *command;
+	char *args[];
 
 	return;
 }
