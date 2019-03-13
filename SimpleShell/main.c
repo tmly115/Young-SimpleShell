@@ -9,9 +9,10 @@ void simpleshell(void);
 char *processline(char *line);
 char **readline(void);
 
+void shell_execute(char **args);
+
 void shell_help(void);
 void shell_goto(char **args);
-void shell_list(void);
 void shell_wai(void);
 
 
@@ -53,11 +54,16 @@ void simpleshell(void){
 void shell_help(void){
 	printf("--SimpleShell Help--\n");
 	printf("Command:\tWhat it does:\n");
-	printf("list\t\tLists the contents in the current directory, takes no arguments.\n");
 	printf("goto\t\tChanges the shell's directory or folder	to that specified, takes one argument which is file path.\n");
 	printf("wai\t\tAKA Where am I. Displays the current location of the shell in the filesystem, takes no arguments.\n");
 	printf("run\t\tExecutes a given program, takes one argument which is the path to this.\n");
 	printf("help\t\tDisplays this text on the basic built-in commands of SimpleShell.\n");
+	return;
+}
+
+void shell_execute(char **args){
+
+
 	return;
 }
 
