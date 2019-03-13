@@ -1,36 +1,48 @@
+/* 
+ * ---------------------------------------------------------------------------
+ * Simple Shell main.c
+ * 2019 (c) Thomas Young
+ * --------------------------------------------------------------------------- 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include <unistd.h>
 #include <string.h>
 
 void simpleshell(void);
 
-int shell_process_line(args);
+int shell_process_line(char **args);
+int shell_run(char **args, char *path);
 
 char *processline(char *line);
 char **readline(void);
-
-void shell_execute(char **args);
 
 void shell_help(void);
 void shell_goto(char **args);
 void shell_wai(void);
 
 
+/* Calls the main shell Function */
+
  int main(void){
 	
 	simpleshell();
 
-	return EXIT_SUCCESS;
+	return 0;
 }	 
+
+/* Loops the input and process function indefinetly*/
 
 void simpleshell(void){
 	
 	printf("Simple Shell. Build: DEV. Thomas Young (c) 2019\n");
 	printf("A Young Enterprise Application.\n");
 
-	int i = 0;
 	char *command;
 	char **args;
 
@@ -39,19 +51,59 @@ void simpleshell(void){
 		args = readline();
 		if(args[0] == NULL){
 			continue;
-		}			
-
-		if(strcmp(args[0], "help") == 0){
-			shell_help();
-
-		} else if(strcmp(args[0], "goto") == 0){
-			shell_goto(args);
-		} else if(strcmp(args[0], "wai") == 0){
-			shell_wai();
-		}
+		} else if(shell_process_line(args) != 0){
+			printf("ssl: no command named \"%s\"\n", args[0]);
+		}	
 	}
 	return;
 }
+
+/* Checks to see if the user specified a shell command, if so it is executed with the arguments being passed
+ * to the function, if not, it is passed to a fucntion that will look for and then execute programs 
+ */
+
+int shell_process_line(char **args){
+
+		if(strcmp(args[0], "help") == 0){
+			shell_help();
+			return 0;
+		} else if(strcmp(args[0], "goto") == 0){
+			shell_goto(args);
+			return 0;
+		} else if(strcmp(args[0], "wai") == 0){
+			shell_wai();
+			return 0;
+		} else if(strcmp(args[0], "run") == 0){
+			char path[64] = "./";
+			strcat(path, args[1]);
+			shell_run(args, path);
+			return 0;
+		}
+
+	//Only exits with 1 if all else fails therfore command has not been executed
+	return 1;
+}
+
+/* Executes the program appending the path infront so it can be executed by excvp() */
+
+int shell_run(char **args, char path[64]){
+
+	pid_t pid = fork();
+	if(pid < 0){
+		printf("ssl: Failed to fork to execute program. I'm affraid it's all over...\n");
+		return 0;
+	} else if(pid == 0){		//Is child process
+		if(execvp(path, args) == -1){
+			printf("ssl: Couldn't execute program\n");
+		}
+	}
+
+	wait(NULL);
+
+	return 0;
+}
+
+/* Displays a help message listing the built-in shell commands */
 
 void shell_help(void){
 	printf("--SimpleShell Help--\n");
