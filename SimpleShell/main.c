@@ -6,6 +6,8 @@
 
 void simpleshell(void);
 
+int shell_process_line(args);
+
 char *processline(char *line);
 char **readline(void);
 
@@ -61,12 +63,6 @@ void shell_help(void){
 	return;
 }
 
-void shell_execute(char **args){
-
-
-	return;
-}
-
 void shell_goto(char **args){
 	if(args[1] == NULL) {
 		printf("goto: ERROR, no file path specified...\n");
@@ -103,7 +99,7 @@ char **readline(void){
 
 		} else if(count > 1023){
 			printf("Oh no! The shell can only take commands up to 1024 characters long!\n");
-			return ;
+			return NULL;
 		
 		} else {
 			buffer[count] = c;
@@ -119,7 +115,6 @@ char **readline(void){
 		args[count] = argument;
 		argument = strtok(NULL, " "); 
 		count++;
-	
 	}
 	args[count] = NULL;
 	return args;

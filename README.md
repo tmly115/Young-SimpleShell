@@ -1,12 +1,14 @@
-# SimpleOS
-A simple yet powerfull and reliable OS. This is a publish only repo, though you are free to add your own features if you want:).
-All aspects of the OS should be as simple and functional as possible.
-Has a simple to use shell with explicit language that can be learnt in less than an hour.
-Kernel ranks process between 1 and 5 based on priority, in case of an overload process are slowly closed.
-Is fully open-source.
 
 # SimpleShell
-Simple shell is the command-line shell enviroment for Simple OS. It is currently writen in C, however this may change. The idea
-is for SimpleShell to be extremely easy to use. Therefore the learning curve of learning the command line is greatly reduced. The
-built in commands for SimpleShell will be explicit, for example the command "run" will execute a program with the path following it,
-while the command wai (Where am I) will show the user what working directory they are working in and so on.
+Simple Shell is a easy to use and extremely effective command line for unix based systems. Unlike command lines
+such as bash, SimpleShell uses explicit laungage instead of symbols in the command line to make it easier to
+use. It's currently a work in progress though you are more than welcome to download and comile the current
+source code and try it out however the functionality is currently very limited.
+
+#Installation
+Simply download or clone the repositry and compile the file named 'main.c' to an exe program. 
+For example type: 'gcc main.c -o ssl'.
+
+#Contact Me
+Feel free to send me a message on github with your thoughts and wisdom on Simple Shell, or if you have any
+promlems!
