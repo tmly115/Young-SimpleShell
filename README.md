@@ -8,4 +8,5 @@ Is fully open-source.
 # SimpleShell
 Simple shell is the command-line shell enviroment for Simple OS. It is currently writen in C, however this may change. The idea
 is for SimpleShell to be extremely easy to use. Therefore the learning curve of learning the command line is greatly reduced. The
-built in commands for SimpleShell will be explicit, for example the command "run" will execute a program with the path following it.
+built in commands for SimpleShell will be explicit, for example the command "run" will execute a program with the path following it,
+while the command wai (Where am I) will show the user what working directory they are working in and so on.
