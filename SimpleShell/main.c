@@ -26,7 +26,7 @@ char **change_args(char **args);
 void shell_help(void);
 void shell_goto(char **args);
 void shell_wai(void);
-
+void shell_exit(void);
 
 /* Calls the main shell Function */
 
@@ -57,7 +57,6 @@ void simpleshell(void){
 		} 
 		else {
 			shell_process_line(args);
-			printf("ssl: no command named \"%s\"\n", args[0]);
 		}	
 	}
 	return;
@@ -82,6 +81,9 @@ int shell_process_line(char **args){
 			strcat(path, args[1]);
 			shell_run(args, path);
 		} 
+		else if(strcmp(args[0], "exit") == 0){
+			shell_exit();
+		}
 		else {
 			if(execute(args) == 0){
 			}
@@ -149,14 +151,17 @@ void shell_help(void){
 	printf("goto\t\tChanges the shell's directory or folder	to that specified, takes one argument which is file path.\n");
 	printf("wai\t\tAKA Where am I. Displays the current location of the shell in the filesystem, takes no arguments.\n");
 	printf("run\t\tExecutes a given program, takes one argument which is the path to this.\n");
+	printf("exit\t\tExit's the shell\n");
 	printf("help\t\tDisplays this text on the basic built-in commands of SimpleShell.\n");
 	return;
 }
 
 void shell_goto(char **args){
-	if(args[1] == NULL) {
-		printf("goto: ERROR, no file path specified...\n");
-	} else if(chdir(args[1]) != 0){
+	if(args[1] == NULL){
+		printf("No path specified\n");
+		return;
+	}
+	else if(chdir(args[1]) != 0){
 		printf("Failed to navigate to path: %s\n", args[1]);
 	}
 	return;
@@ -167,6 +172,10 @@ void shell_wai(void){
 	getcwd(location, sizeof(location));
 	printf("Current Location: %s\n", location);
 	return;
+}
+
+void shell_exit(void){
+	exit(0);
 }
 
 char **readline(void){
