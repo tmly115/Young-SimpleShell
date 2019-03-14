@@ -18,9 +18,10 @@ void simpleshell(void);
 
 int shell_process_line(char **args);
 int shell_run(char **args, char *path);
+int execute(char **args);
 
-char *processline(char *line);
 char **readline(void);
+char **change_args(char **args);
 
 void shell_help(void);
 void shell_goto(char **args);
@@ -47,11 +48,15 @@ void simpleshell(void){
 	char **args;
 
 	while(1){
+		
 		printf(">");
 		args = readline();
+		
 		if(args[0] == NULL){
 			continue;
-		} else if(shell_process_line(args) != 0){
+		} 
+		else {
+			shell_process_line(args);
 			printf("ssl: no command named \"%s\"\n", args[0]);
 		}	
 	}
@@ -59,41 +64,74 @@ void simpleshell(void){
 }
 
 /* Checks to see if the user specified a shell command, if so it is executed with the arguments being passed
- * to the function, if not, it is passed to a fucntion that will look for and then execute programs 
- */
+ * to the function, if not, it is passed to a fucntion that will look for and then execute programs */
 
 int shell_process_line(char **args){
 
 		if(strcmp(args[0], "help") == 0){
 			shell_help();
-			return 0;
-		} else if(strcmp(args[0], "goto") == 0){
+		} 
+		else if(strcmp(args[0], "goto") == 0){
 			shell_goto(args);
-			return 0;
-		} else if(strcmp(args[0], "wai") == 0){
+		} 
+		else if(strcmp(args[0], "wai") == 0){
 			shell_wai();
-			return 0;
-		} else if(strcmp(args[0], "run") == 0){
+		} 
+		else if(strcmp(args[0], "run") == 0){
 			char path[64] = "./";
 			strcat(path, args[1]);
 			shell_run(args, path);
-			return 0;
+		} 
+		else {
+			if(execute(args) == 0){
+			}
 		}
-
-	//Only exits with 1 if all else fails therfore command has not been executed
-	return 1;
+	return 0;
 }
+
+/* Moves the arguments forward so it can be passed to function run to execute with the correct 
+ * program arguments */
+
+ char **change_args(char **args){
+	 int i = 0;
+	 for(i = 0; i < 32; i++){
+		 args[i] = args[i + 1];
+		 if(args[i] == NULL){
+			 break;
+		 }
+	 }
+	 return args;
+ }
 
 /* Executes the program appending the path infront so it can be executed by excvp() */
 
 int shell_run(char **args, char path[64]){
 
+	args = change_args(args);
+
 	pid_t pid = fork();
 	if(pid < 0){
-		printf("ssl: Failed to fork to execute program. I'm affraid it's all over...\n");
+		printf("ssl: Failed to fork to execute program. I'm afraid it's all over...\n");
 		return 0;
 	} else if(pid == 0){		//Is child process
-		if(execvp(path, args) == -1){
+		if(execv(path, args) == -1){
+			printf("ssl: Couldn't execute program\n");
+		}
+	}
+
+	wait(NULL);
+
+	return 0;
+}
+
+int execute(char **args){
+
+	pid_t pid = fork();
+	if(pid < 0){
+		printf("ssl: Failed to fork to execute program. I'm afraid it's all over...\n");
+		return 0;
+	} else if(pid == 0){		//Is child process
+		if(execvp(args[0], args) == -1){
 			printf("ssl: Couldn't execute program\n");
 		}
 	}
@@ -132,7 +170,8 @@ void shell_wai(void){
 }
 
 char **readline(void){
-	char **args = malloc(32 * sizeof(char *));
+
+	char **args = malloc(64 * sizeof(char *));
 	char *command;	
 
 	char c;
