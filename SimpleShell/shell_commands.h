@@ -1,0 +1,64 @@
+/* 
+ * ---------------------------------------------------------------------------
+ * Simple Shell shell_commands.h
+ * 2019 (c) Thomas Young
+ * --------------------------------------------------------------------------- 
+ */
+
+char **change_args(char **args);
+
+/* Displays a help message listing the built-in shell commands */
+
+void shell_help(void){
+	printf("--SimpleShell Help--\n");
+	printf("Command:\tWhat it does:\n");
+	printf("goto\t\tChanges the shell's directory or folder	to that specified, takes one argument which is file path.\n");
+	printf("wai\t\tAKA Where am I. Displays the current location of the shell in the filesystem, takes no arguments.\n");
+	printf("run\t\tExecutes a given program, takes one argument which is the path to this.\n");
+	printf("exit\t\tExit's the shell\n");
+	printf("help\t\tDisplays this text on the basic built-in commands of SimpleShell.\n");
+	return;
+}
+
+void shell_goto(char **args){
+	if(args[1] == NULL){
+		printf("No path specified\n");
+		return;
+	}
+	else if(chdir(args[1]) != 0){
+		printf("Failed to navigate to path: %s\n", args[1]);
+	}
+	return;
+}
+
+void shell_wai(void){
+	char location[255];
+	getcwd(location, sizeof(location));
+	printf("Current Location: %s\n", location);
+	return;
+}
+
+/* Executes the program appending the path infront so it can be executed by excvp() */
+
+int shell_run(char **args, char path[64]){
+
+	args = change_args(args);
+
+	pid_t pid = fork();
+	if(pid < 0){
+		printf("ssl: Failed to fork to execute program. I'm afraid it's all over...\n");
+		return 0;
+	} else if(pid == 0){		//Is child process
+		if(execv(path, args) == -1){
+			printf("ssl: Couldn't execute program\n");
+		}
+	}
+
+	wait(NULL);
+
+	return 0;
+}
+
+void shell_exit(void){
+	exit(0);
+}
