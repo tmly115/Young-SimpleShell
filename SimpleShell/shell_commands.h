@@ -12,11 +12,11 @@ char **change_args(char **args);
 void shell_help(void){
 	printf("--SimpleShell Help--\n");
 	printf("Command:\tWhat it does:\n");
-	printf("goto\t\tChanges the shell's directory or folder	to that specified, takes one argument which is file path.\n");
-	printf("wai\t\tAKA Where am I. Displays the current location of the shell in the filesystem, takes no arguments.\n");
-	printf("run\t\tExecutes a given program, takes one argument which is the path to this.\n");
-	printf("exit\t\tExit's the shell\n");
-	printf("help\t\tDisplays this text on the basic built-in commands of SimpleShell.\n");
+	printf("goto\t\tChanges the shell's directory or folder	to that specified.\n\t\tTakes one argument which is file path.\n");
+	printf("wai\t\tAKA Where am I. Displays the current location of the shell\n\t\tin the filesystem. Takes no arguments.\n");
+	printf("run\t\tExecutes a given program, takes one argument which is the\n\t\tpath to the program to be executed.\n");
+	printf("exit\t\tExit's the shell.\n");
+	printf("help\t\tDisplays this  help message on the built-in commands.\n");
 	return;
 }
 
@@ -60,5 +60,6 @@ int shell_run(char **args, char path[64]){
 }
 
 void shell_exit(void){
+	printf("------------------------------------------------------------\n");
 	exit(0);
 }

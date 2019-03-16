@@ -16,6 +16,8 @@
 
 #include "shell_commands.h"
 
+#define VERSION_NUMBER "0.1"
+
 void simpleshell(void);
 
 int shell_process_line(char **args);
@@ -37,7 +39,7 @@ char **change_args(char **args);
 
 void simpleshell(void){
 	
-	printf("Simple Shell. Build: DEV. Thomas Young (c) 2019\n");
+	printf("Simple Shell. Version: %s. Thomas Young (c) 2019\n", VERSION_NUMBER);
 	printf("A Young Enterprise Application.\n");
 
 	char *command;
@@ -136,7 +138,7 @@ char **readline(void){
 			buffer[count] = '\0';
 			command = buffer; 
 			break;
-
+			
 		} else if(count > 1023){
 			printf("Oh no! The shell can only take commands up to 1024 characters long!\n");
 			return NULL;
