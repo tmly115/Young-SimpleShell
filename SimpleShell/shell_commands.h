@@ -5,8 +5,6 @@
  * --------------------------------------------------------------------------- 
  */
 
-char **change_args(char **args);
-
 /* Displays a help message listing the built-in shell commands */
 
 void shell_help(void){
@@ -17,7 +15,6 @@ void shell_help(void){
 	printf("run\t\tExecutes a given program, takes one argument which is the\n\t\tpath to the program to be executed.\n");
 	printf("exit\t\tExit's the shell.\n");
 	printf("help\t\tDisplays this  help message on the built-in commands.\n");
-	return;
 }
 
 void shell_goto(char **args){
@@ -28,19 +25,17 @@ void shell_goto(char **args){
 	else if(chdir(args[1]) != 0){
 		printf("Failed to navigate to path: %s\n", args[1]);
 	}
-	return;
 }
 
 void shell_wai(void){
-	char location[255];
+	char *location;
 	getcwd(location, sizeof(location));
 	printf("Current Location: %s\n", location);
-	return;
 }
 
 /* Executes the program appending the path infront so it can be executed by excvp() */
 
-int shell_run(char **args, char path[64]){
+int shell_run(char **args){
 
 	args = change_args(args);
 
@@ -49,7 +44,7 @@ int shell_run(char **args, char path[64]){
 		printf("ssl: Failed to fork to execute program. I'm afraid it's all over...\n");
 		return 0;
 	} else if(pid == 0){		//Is child process
-		if(execv(path, args) == -1){
+		if(execv(args[0], args) == -1){
 			printf("ssl: Couldn't execute program\n");
 		}
 	}

@@ -14,9 +14,13 @@
 #include <unistd.h>
 #include <string.h>
 
+char **change_args(char **args);
+
 #include "shell_commands.h"
 
 #define VERSION_NUMBER "0.1"
+#define MAX_ARGS 64
+#define MAX_COMMAND_LENGTH 4096
 
 void simpleshell(void);
 
@@ -49,15 +53,19 @@ void simpleshell(void){
 		
 		printf(">");
 		args = readline();
+		if(args == NULL){
+			continue;  
+		}
 		
-		if(args[0] == NULL){
+		if(args == NULL){
 			continue;
 		} 
 		else {
 			shell_process_line(args);
-		}	
+		}
+
+		free(args);
 	}
-	return;
 }
 
 /* Checks to see if the user specified a shell command, if so it is executed with the arguments being passed
@@ -75,9 +83,8 @@ int shell_process_line(char **args){
 			shell_wai();
 		} 
 		else if(strcmp(args[0], "run") == 0){
-			char path[64] = "./";
-			strcat(path, args[1]);
-			shell_run(args, path);
+			strcat(args[1], "./");
+			shell_run(args);
 		} 
 		else if(strcmp(args[0], "exit") == 0){
 			shell_exit();
@@ -126,7 +133,7 @@ char **readline(void){
 	char *command;	
 
 	char c;
-	char buffer[1024];
+	char buffer[MAX_COMMAND_LENGTH];
 
 	int count = 0;
 
@@ -139,9 +146,9 @@ char **readline(void){
 			command = buffer; 
 			break;
 			
-		} else if(count > 1023){
-			printf("Oh no! The shell can only take commands up to 1024 characters long!\n");
-			return NULL;
+		} else if(count > MAX_COMMAND_LENGTH - 1){
+			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
+			return 0;
 		
 		} else {
 			buffer[count] = c;
@@ -153,11 +160,12 @@ char **readline(void){
 
 	char *argument = strtok(command, " ");
 
-	while(argument != NULL){
+	while(argument != NULL && count < MAX_ARGS - 1){
 		args[count] = argument;
 		argument = strtok(NULL, " "); 
 		count++;
 	}
 	args[count] = NULL;
+
 	return args;
 }	
