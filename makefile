@@ -1,5 +1,5 @@
 prog: main.o
-	gcc -o simpleshell main.o
+	$(CC) -o ssl main.o
 
-main.o: SimpleShell/main.c SimpleShell/shell_commands.h
-	gcc -c SimpleShell/main.c SimpleShell/shell_commands.h
+main.o: SimpleShell/main.c
+	$(CC) -c SimpleShell/main.c
