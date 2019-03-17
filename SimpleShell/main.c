@@ -97,16 +97,14 @@ int shell_process_line(char **args){
 /* Moves the arguments forward so it can be passed to function run to execute with the correct 
  * program arguments */
 
- char **change_args(char **args){
-	 int i = 0;
-	 for(i = 0; i < 32; i++){
-		 args[i] = args[i + 1];
-		 if(args[i] == NULL){
-			 break;
-		 }
-	 }
-	 return args;
- }
+char **change_args(char **args){
+	if (*args == NULL){
+		return args;
+	}
+	else{
+		return args + 1;
+	}
+}
 
 int execute(char **args){
 
@@ -167,4 +165,4 @@ char **readline(void){
 	args[count] = NULL;
 
 	return args;
-}	
+}
