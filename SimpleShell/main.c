@@ -46,7 +46,6 @@ void simpleshell(void){
 	printf("Simple Shell. Version: %s. Thomas Young (c) 2019\n", VERSION_NUMBER);
 	printf("A Young Enterprise Application.\n");
 
-	char *command;
 	char **args;
 
 	while(1){
