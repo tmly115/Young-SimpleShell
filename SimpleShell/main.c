@@ -115,6 +115,7 @@ int execute(char **args){
 	} else if(pid == 0){		//Is child process
 		if(execvp(args[0], args) == -1){
 			printf("ssl: Couldn't execute program\n");
+			exit(0);
 		}
 	}
 
