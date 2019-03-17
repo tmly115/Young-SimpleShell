@@ -56,8 +56,10 @@ void simpleshell(void){
 		if(args == NULL){
 			continue;  
 		}
+
+		/* If realine fails it returns a 1 in the first entry of args */
 		
-		if(args == NULL){
+		if(strcmp(args[0], "1") == 0){
 			continue;
 		} 
 		else {
@@ -148,7 +150,8 @@ char **readline(void){
 			
 		} else if(count > MAX_COMMAND_LENGTH - 1){
 			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
-			return 0;
+			args[0] = "1";
+			return args;
 		
 		} else {
 			buffer[count] = c;

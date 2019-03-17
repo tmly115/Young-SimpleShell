@@ -1,7 +1,5 @@
-#Ignore the SimpleOS directory
-SimpleOS/
 
 #Ignore executanle file
-SimpleShell/SimpleShell
+ssl
 
 
