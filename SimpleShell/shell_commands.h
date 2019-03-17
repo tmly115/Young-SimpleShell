@@ -6,7 +6,7 @@
  */
 
 /* Displays a help message listing the built-in shell commands */
-
+#include<stdio.h>
 void shell_help(void){
 	printf("--SimpleShell Help--\n");
 	printf("Command:\tWhat it does:\n");
@@ -26,7 +26,7 @@ void shell_goto(char **args){
 	}
 }
 
-void shell_wai(void){
+void shell_wait(void){
 	char location[128];
 	getcwd(location, sizeof(location));
 	printf("Current Location: %s\n", location);
