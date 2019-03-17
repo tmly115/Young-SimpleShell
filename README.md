@@ -6,8 +6,18 @@ use. It's currently a work in progress though you are more than welcome to downl
 source code and try it out however the functionality is currently very limited.
 
 # Installation
-Simply download or clone the repository and compile the file named 'main.c' to an exe program. 
-For example type: 'gcc main.c -o ssl'.
+Clone the repository
+cd into the repo and then type the following commands
+
+To compile:
+```
+make
+```
+To run the shell:
+```
+./ssl_dev
+```
+Note: You can exit out of it with Ctrl^C like any normal program
 
 # Usage
 ssl can be executed from the bash shell or can be set as a users default shell. Currently the shell
