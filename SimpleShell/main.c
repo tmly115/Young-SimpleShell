@@ -55,17 +55,19 @@ void simpleshell(void){
 		if(args == NULL){
 			continue;  
 		}
+		else{
 
-		/* If realine fails it returns a 1 in the first entry of args */
-		
-		if(strcmp(args[0], "1") == 0){
-			continue;
-		} 
-		else {
-			shell_process_line(args);
+			/* If realine fails it returns a 1 in the first entry of args */
+			
+			if(strcmp(args[0], "1") == 0){
+				continue;
+			} 
+			else {
+				shell_process_line(args);
+			}
+
+			free(args);
 		}
-
-		free(args);
 	}
 }
 
@@ -87,8 +89,10 @@ int shell_process_line(char **args){
 			shell_exit();
 		}
 		else {
-			if(execute(args) == 0){
+			if(execute(args) != 0){
+				exit(1);
 			}
+			
 		}
 	return 0;
 }
@@ -136,12 +140,15 @@ char **readline(void){
 	while(1){
 		
 		c = getchar();
-		
-		if(c == EOF || c == '\n'){
+
+		if( ( c == '\n' || c == EOF ) && (count < 1) ){
+			return NULL;
+
+		} else if(c == EOF || c == '\n'){
 			buffer[count] = '\0';
 			command = buffer; 
 			break;
-			
+	
 		} else if(count > MAX_COMMAND_LENGTH - 1){
 			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
 			args[0] = "1";
