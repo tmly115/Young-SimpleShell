@@ -141,14 +141,18 @@ char **readline(void){
 		
 		c = getchar();
 
-		if( ( c == '\n' || c == EOF ) && (count < 1) ){
+		if( c == '\n' && (count < 1) ){
 			return NULL;
 
-		} else if(c == EOF || c == '\n'){
+		} else if(c == '\n'){
 			buffer[count] = '\0';
 			command = buffer; 
 			break;
-	
+
+		} else if(c == EOF){
+			printf("exit\n");
+			shell_exit();
+			
 		} else if(count > MAX_COMMAND_LENGTH - 1){
 			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
 			args[0] = "1";

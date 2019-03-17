@@ -2,4 +2,7 @@
 #Ignore executanle file
 ssl
 
+#Ignore object file
+main.o
+
 
