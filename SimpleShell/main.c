@@ -84,10 +84,6 @@ int shell_process_line(char **args){
 		else if(strcmp(args[0], "wai") == 0){
 			shell_wai();
 		} 
-		else if(strcmp(args[0], "run") == 0){
-			strcat(args[1], "./");
-			shell_run(args);
-		} 
 		else if(strcmp(args[0], "exit") == 0){
 			shell_exit();
 		}
