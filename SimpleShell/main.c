@@ -30,6 +30,10 @@ int execute(char **args);
 char **readline(void);
 char **change_args(char **args);
 
+#define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
+#define RESET   "\033[0m"
+int get_pwd(char *pwd);
+
 /* Calls the main shell Function */
 
  int main(void){
@@ -39,6 +43,12 @@ char **change_args(char **args);
 	return 0;
 }	 
 
+/* Gets the present working directory of the shell */
+int get_pwd(char *pwd){
+
+	getcwd(pwd,FILENAME_MAX);
+}
+
 /* Loops the input and process function indefinetly*/
 
 void simpleshell(void){
@@ -47,10 +57,12 @@ void simpleshell(void){
 	printf("A Young Enterprise Application.\n");
 
 	char **args;
+	char *pwd=malloc(FILENAME_MAX+1);
 
 	while(1){
 		
-		printf(">");
+		get_pwd(pwd);
+		printf(BOLDWHITE "%s$ " RESET,pwd);
 		args = readline();
 		if(args == NULL){
 			continue;  
