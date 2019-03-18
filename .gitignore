@@ -1,6 +1,6 @@
 
 #Ignore executanle file
-ssl
+ssl_dev
 
 #Ignore object file
 main.o
