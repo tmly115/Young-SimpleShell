@@ -47,10 +47,12 @@ void simpleshell(void){
 	printf("A Young Enterprise Application.\n");
 
 	char **args;
+	char *pwd= (char*)malloc(FILENAME_MAX);
 
 	while(1){
 		
-		printf(">");
+		pwd=shell_wai();
+		printf("%s-->",pwd);
 		args = readline();
 		if(args == NULL){
 			continue;  
@@ -83,7 +85,7 @@ int shell_process_line(char **args){
 			shell_goto(args);
 		} 
 		else if(strcmp(args[0], "wai") == 0){
-			shell_wai();
+			printf("%s\n",shell_wai());
 		} 
 		else if(strcmp(args[0], "exit") == 0){
 			shell_exit();
