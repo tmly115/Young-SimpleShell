@@ -1,9 +1,13 @@
-CC=gcc
-DEPS=SimpleShell/shell_commands.h
-  
-run: SimpleShell/main.c
-	$(CC) -o ssl_dev SimpleShell/main.c
-debug:
-	$(CC) -g -o ssl_dev SimpleShell/main.c
+VPATH := SimpleShell
+
+.PHONY: clean
+
+all: ssl_dev
+
+ssl_dev: main.o
+	$(CC) -o $@ $^
+
+main.o: shell_commands.h
+
 clean:
-	rm ssl_dev
+	$(RM) ssl_dev main.o
