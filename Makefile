@@ -1,9 +1,9 @@
 CC=gcc
-DEPS=SimpleShell/shell_commands.h
+DEPS=src/shell_commands.h
   
-run: SimpleShell/main.c
-	$(CC) -o ssl_dev SimpleShell/main.c
+run: src/main.c
+	$(CC) -o ssl_dev src/main.c
 debug:
-	$(CC) -g -o ssl_dev SimpleShell/main.c
+	$(CC) -g -o ssl_dev src/main.c
 clean:
 	rm ssl_dev

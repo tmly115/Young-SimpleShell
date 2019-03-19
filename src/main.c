@@ -7,10 +7,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <sys/types.h>
 #include <sys/wait.h>
-
 #include <unistd.h>
 #include <string.h>
 
@@ -28,7 +26,6 @@ int shell_process_line(char **args);
 int execute(char **args);
 
 char **readline(void);
-char **change_args(char **args);
 
 /* Calls the main shell Function */
 
@@ -130,10 +127,9 @@ int execute(char **args){
 char **readline(void){
 
 	char **args = malloc(64 * sizeof(char *));
-	char *command;	
+	char command[MAX_COMMAND_LENGTH];
 
 	char c;
-	char buffer[MAX_COMMAND_LENGTH];
 
 	int count = 0;
 
@@ -145,21 +141,20 @@ char **readline(void){
 			return NULL;
 
 		} else if(c == '\n'){
-			buffer[count] = '\0';
-			command = buffer; 
+			command[count] = '\0'; 
 			break;
 
 		} else if(c == EOF){
 			printf("exit\n");
 			shell_exit();
-			
+
 		} else if(count > MAX_COMMAND_LENGTH - 1){
 			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
 			args[0] = "1";
 			return args;
 		
 		} else {
-			buffer[count] = c;
+			command[count] = c;
 		}
 		count++;
 	}
