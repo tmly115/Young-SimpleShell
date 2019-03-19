@@ -1,11 +1,12 @@
 VPATH := SimpleShell
+CFLAGS := -g3
 
-.PHONY: clean
+.PHONY: all clean
 
 all: ssl_dev
 
 ssl_dev: main.o
-	$(CC) -o $@ $^
+	$(CC) -o $@ $(LDFLAGS) $^
 
 main.o: shell_commands.h
 
