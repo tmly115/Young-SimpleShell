@@ -12,20 +12,26 @@
 #include <unistd.h>
 #include <string.h>
 
+/* Function declarations for shell_config.h */
+
+void load_config_file(char *path);
+void generate_new_config_file(void);
+void change_shell_settings(char **args);
+
+/* Function declarations for main.c */
+
 char **change_args(char **args);
-
-#include "shell_commands.h"
-
-#define VERSION_NUMBER "0.1"
-#define MAX_ARGS 64
-#define MAX_COMMAND_LENGTH 4096
-
 void simpleshell(void);
-
 int shell_process_line(char **args);
 int execute(char **args);
-
 char **readline(void);
+
+#include "shell_commands.h"
+#include "shell_config.h"
+
+#define VERSION_NUMBER "0.1.1"
+#define MAX_ARGS 64
+#define MAX_COMMAND_LENGTH 4096
 
 /* Calls the main shell Function */
 
@@ -148,7 +154,7 @@ char **readline(void){
 			printf("exit\n");
 			shell_exit();
 
-		} else if(count > MAX_COMMAND_LENGTH - 1){
+		} else if(count >= MAX_COMMAND_LENGTH){
 			printf("Oh no! The shell can only take commands up to 4096 characters long!\n");
 			args[0] = "1";
 			return args;

@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 /* Displays a help message listing the built-in shell commands */
 
@@ -28,10 +30,10 @@ void shell_goto(char **args){
 	}
 }
 
-void shell_wai(void){
-	char location[128];
-	getcwd(location, sizeof(location));
-	printf("Current Location: %s\n", location);
+char* shell_wai(){
+	char *location= (char*) malloc(FILENAME_MAX +1);;
+	getcwd(location,FILENAME_MAX);
+	return location;
 }
 
 
