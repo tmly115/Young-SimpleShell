@@ -7,57 +7,42 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <libconfig.h>
 
 #define CONFIG_PATH "config.cfg"
-#define MAX_FILE_LINE_LENGTH 64
+
+static config_t *config_file;
 
 /* Generate's the config file if one is not present */
-
 void generate_new_config_file(void){
-
-	FILE *fp = fopen(CONFIG_PATH, "w");
-
-	fprintf(fp, "mod = false\n");
-	fprintf(fp, "mod_text = esl\n");
-	fprintf(fp, "shell_prompt = default\n");
-
-	fclose(fp);
-}
-
-/* Read's the a line of the file and store's it in a char array on the heep */
-
-char *read_file_line(FILE *fp){
-
-	char *file_line;
-	char c;
-
-	int count;
-
-	while(1){
-
-	}
-}
-
-/* Read's and seperate's 6each line of the config file so it can be parsed by the program */
-
-void process_file(FILE *fp){
 	
+	//If config read causes an error,  && because file doesn't exist (I/O error)
+	if(!config_read_file(config_file,CONFIG_PATH) && config_error_type(config_file)==1){
+
+		printf("Configuration file does not exist, creating default config file\n");
+		//initialize object
+		config_init(config_file);
+		//config_write_file() (to write initial configuration)
+	}
+
 }
 
-/* Load's data from the config file and change's the shell's charectoristics accordingly */
-
+/* Get's the configurations of respective settings from CONFIG_PATH */
 int config_shell(void){
+
+	generate_new_config_file();
+
+	//Just an idea of how we would get the respective settings. Could use an array in the future
+	config_setting_t *mod_setting=config_lookup(config_file,"mod");
+	config_setting_t *mod_text_setting=config_lookup(config_file,"mod_text");
+	config_setting_t *shell_prompt_setting=config_lookup(config_file,"shell_prompt");
+
+	////Uncomment to print values
+	//printf("Mod value is %d\n",config_setting_get_bool(mod_setting));
+	//printf("Mod text value is %s\n",config_setting_get_string(mod_text_setting));
+	//printf("Shell prompt value is %s\n",config_setting_get_string(shell_prompt_setting));
 	
-	FILE *fp = fopen(CONFIG_PATH, "r");
+	//To avoid memory leak
+	config_destroy(config_file);
 
-	if(fp == NULL){
-		printf("ssl: Config file not found, generating new one...\n");
-		fclose(fp);
-		generate_new_config_file();
-		return 0;
-	}
-
-	fclose(fp);
-
-	return 0;
 }
