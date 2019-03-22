@@ -12,11 +12,11 @@
 #include <unistd.h>
 #include <string.h>
 
+int dir_on_prompt = 0;
 /* Function declarations for shell_config.h */
 
-void load_config_file(char *path);
 void generate_new_config_file(void);
-void change_shell_settings(char **args);
+int config_shell(void);
 
 /* Function declarations for main.c */
 
@@ -49,11 +49,17 @@ void simpleshell(void){
 	printf("Simple Shell. Version: %s. Thomas Young (c) 2019\n", VERSION_NUMBER);
 	printf("A Young Enterprise Application.\n");
 
+	config_shell();
+
 	char **args;
 
 	while(1){
-		
+
+		if(dir_on_prompt){
+			printf("%s ", shell_wai());
+		}
 		printf(">");
+
 		args = readline();
 		if(args == NULL){
 			continue;  
@@ -81,12 +87,12 @@ int shell_process_line(char **args){
 
 		if(strcmp(args[0], "help") == 0){
 			shell_help();
-		} 
+		}
 		else if(strcmp(args[0], "goto") == 0){
 			shell_goto(args);
 		} 
 		else if(strcmp(args[0], "wai") == 0){
-			shell_wai();
+			printf("%s\n", shell_wai());
 		} 
 		else if(strcmp(args[0], "exit") == 0){
 			shell_exit();
@@ -94,8 +100,7 @@ int shell_process_line(char **args){
 		else {
 			if(execute(args) != 0){
 				exit(1);
-			}
-			
+			}	
 		}
 	return 0;
 }

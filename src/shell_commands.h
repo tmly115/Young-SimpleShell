@@ -31,8 +31,8 @@ void shell_goto(char **args){
 }
 
 char* shell_wai(){
-	char *location= (char*) malloc(FILENAME_MAX +1);;
-	getcwd(location,FILENAME_MAX);
+	char *location = (char*) malloc(FILENAME_MAX +1);;
+	getcwd(location, FILENAME_MAX);
 	return location;
 }
 

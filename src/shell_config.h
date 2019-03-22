@@ -11,18 +11,20 @@
 
 #define CONFIG_PATH "config.cfg"
 
-static config_t *config_file;
+static config_t config_file;
 
 /* Generate's the config file if one is not present */
-void generate_new_config_file(void){
-	
-	//If config read causes an error,  && because file doesn't exist (I/O error)
-	if(!config_read_file(config_file,CONFIG_PATH) && config_error_type(config_file)==1){
+void config_file_init(void){
 
-		printf("Configuration file does not exist, creating default config file\n");
-		//initialize object
-		config_init(config_file);
-		//config_write_file() (to write initial configuration)
+	config_init(&config_file);
+	
+	//If config read causes an error
+	if(!config_read_file(&config_file, CONFIG_PATH)){
+
+		fprintf(stderr, "%s:%d - %s\n", config_error_file(&config_file),
+            config_error_line(&config_file), config_error_text(&config_file));
+
+		config_destroy(&config_file);
 	}
 
 }
@@ -30,19 +32,14 @@ void generate_new_config_file(void){
 /* Get's the configurations of respective settings from CONFIG_PATH */
 int config_shell(void){
 
-	generate_new_config_file();
+	config_file_init();
 
 	//Just an idea of how we would get the respective settings. Could use an array in the future
-	config_setting_t *mod_setting=config_lookup(config_file,"mod");
-	config_setting_t *mod_text_setting=config_lookup(config_file,"mod_text");
-	config_setting_t *shell_prompt_setting=config_lookup(config_file,"shell_prompt");
+	config_setting_t *dir_on_prompt_setting = config_lookup(&config_file, "dir_on_prompt");
 
-	////Uncomment to print values
-	//printf("Mod value is %d\n",config_setting_get_bool(mod_setting));
-	//printf("Mod text value is %s\n",config_setting_get_string(mod_text_setting));
-	//printf("Shell prompt value is %s\n",config_setting_get_string(shell_prompt_setting));
+	//Asigns the bool setting to global variable
+	dir_on_prompt = config_setting_get_bool(dir_on_prompt_setting);
 	
 	//To avoid memory leak
-	config_destroy(config_file);
-
+	config_destroy(&config_file);
 }
