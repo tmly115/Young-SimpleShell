@@ -18,7 +18,7 @@ void config_file_init(void){
 
 	config_init(&config_file);
 	
-	//If config read causes an error
+	/*If config read causes an error*/
 	if(!config_read_file(&config_file, CONFIG_PATH)){
 
 		fprintf(stderr, "%s:%d - %s\n", config_error_file(&config_file),
@@ -34,12 +34,12 @@ int config_shell(void){
 
 	config_file_init();
 
-	//Just an idea of how we would get the respective settings. Could use an array in the future
+	/*Just an idea of how we would get the respective settings. Could use an array in the future*/
 	config_setting_t *dir_on_prompt_setting = config_lookup(&config_file, "dir_on_prompt");
 
-	//Asigns the bool setting to global variable
+	/*Asigns the bool setting to global variable*/
 	dir_on_prompt = config_setting_get_bool(dir_on_prompt_setting);
 	
-	//To avoid memory leak
+	/*To avoid memory leak*/
 	config_destroy(&config_file);
 }

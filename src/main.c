@@ -123,7 +123,7 @@ int execute(char **args){
 	if(pid < 0){
 		printf("ssl: Failed to fork to execute program. I'm afraid it's all over...\n");
 		return 0;
-	} else if(pid == 0){		//Is child process
+	} else if(pid == 0){ /*Is child process*/
 		if(execvp(args[0], args) == -1){
 			printf("ssl: Couldn't execute program\n");
 			exit(0);

@@ -1,6 +1,6 @@
-CC=gcc
+CC=gcc -std=c89
 DEPS=src/shell_commands.h
-  
+
 run: src/main.c
 	$(CC) -o yss_dev src/main.c -lconfig
 debug:
