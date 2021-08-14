@@ -9,7 +9,22 @@
 #include <stdlib.h>
 #include <libconfig.h>
 
-#define CONFIG_PATH "config.cfg"
+/*
+Please visit the next website for more information
+
+https://iq.opengenus.org/detect-operating-system-in-c/
+*/
+#ifdef __linux__
+  #define CONFIG_PATH "/opt/yss/config.cfg"
+/*
+#elif _WIN32
+	#define CONFIG_PATH "C:/..."
+#elif BSD 
+	#define CONFIG_PATH "/..."
+#elif _POSIX_VERSION
+	#define CONFIG_PATH "directory"
+*/ /*etc..*/
+#endif
 
 static config_t config_file;
 

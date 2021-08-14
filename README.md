@@ -17,6 +17,17 @@ To run the shell:
 ```
 ./yss_dev
 ```
+Please, execute the next commands how administrador
+
+To install in you Operating System
+```
+make -i install
+```
+For remove of you Operating System 
+```
+make -i clean
+```
+
 Note: You can exit out of it with Ctrl^C like any normal program
 
 # Usage
