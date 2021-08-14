@@ -11,13 +11,20 @@
 
 /* Displays a help message listing the built-in shell commands */
 
+#define HELPTMSG 4
+
 void shell_help(void){
-	printf("--SimpleShell Help--\n");
-	printf("Command:\tWhat it does:\n");
-	printf("goto\t\tChanges the shell's directory or folder	to that specified.\n\t\tTakes one argument which is file path.\n");
-	printf("wai\t\tAKA Where am I. Displays the current location of the shell\n\t\tin the filesystem. Takes no arguments.\n");
-	printf("exit\t\tExit's the shell.\n");
-	printf("help\t\tDisplays this  help message on the built-in commands.\n");
+	char const *command_whatis[HELPTMSG] = {
+		"goto\t\t Changes the shell's directory or folder to that specified.\n\t\t Takes one argument which is file path.\n",
+		"wai\t\t AKA Where am I. Displays the current location of the shell\n\t\t in the filesystem. Takes no arguments.\n",
+		"exit\t\t Exit's the shell.\n",
+		"help\t\t Displays this help message on the built-in commands.\n"
+	};
+
+	printf("Command\t- Description:\n");
+
+	int i;
+	for(i = 0;i < HELPTMSG;i++) printf("%s",command_whatis[i]);
 }
 
 void shell_goto(char **args){
